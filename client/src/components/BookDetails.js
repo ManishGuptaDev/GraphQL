@@ -6,7 +6,7 @@ const BookDetails = ({ bookId }) => {
     variables: { id: bookId },
   });
   return (
-    <div id="bbok-details">
+    <div id="book-details">
       <p>Book Details</p>
       {data && data.book && (
         <div>
