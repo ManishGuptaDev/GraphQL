@@ -12,7 +12,6 @@ const {
   GraphQLList,
 } = graphql;
 
-
 const BookType = new GraphQLObjectType({
   name: "Book",
   fields: () => ({
@@ -22,7 +21,7 @@ const BookType = new GraphQLObjectType({
     author: {
       type: AuthorType,
       resolve(parent, args) {
-        //return _.find(authers, { id: parent.autherId });
+        return Author.findById(parent.autherId);
       },
     },
   }),
@@ -37,7 +36,7 @@ const AuthorType = new GraphQLObjectType({
     books: {
       type: new GraphQLList(BookType),
       resolve(parent, args) {
-        //return _.filter(books, { autherId: parent.id });
+        return Book.find({autherId: parent.id})
       },
     },
   }),
@@ -51,7 +50,7 @@ const RootQuery = new GraphQLObjectType({
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
         // code to get data from db/other source
-        //return books.find((b) => b.id === args.id);
+        return Book.findById(args.id)
       },
     },
     author: {
@@ -59,19 +58,19 @@ const RootQuery = new GraphQLObjectType({
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
         // code to get data from db/other source
-        //return _.find(authers, { id: args.id });
+        return Author.findById(args.id)
       },
     },
     books: {
       type: new GraphQLList(BookType),
       resolve(parent, args) {
-        //return books;
+        return Book.find({})
       },
     },
     authors: {
       type: new GraphQLList(AuthorType),
       resolve(parent, args) {
-        //return authers;
+        return Author.find({})
       },
     },
   },
@@ -93,7 +92,24 @@ const Mutation = new GraphQLObjectType({
         });
         return author.save();
       },
-    }
+    },
+    addBook: {
+      type: BookType,
+      args: {
+        name: { type: GraphQLString },
+        genre: { type: GraphQLString },
+        autherId: { type: GraphQLID },
+      },
+      resolve(parent, args) {
+        const book = new Book({
+          name: args.name,
+          genre: args.genre,
+          autherId: args.autherId
+        });
+
+        return book.save();
+      }
+    },
   },
 });
 
