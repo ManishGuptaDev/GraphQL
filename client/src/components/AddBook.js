@@ -24,7 +24,6 @@ const AddBooks = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(name, genre, authorId)
     mutateFunction({
       variables: {
         name,
