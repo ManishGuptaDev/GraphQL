@@ -1,8 +1,8 @@
 import { useQuery } from "@apollo/client";
-import { getBooks } from '../queries/queries'
+import { getBooksQuery } from '../queries/queries'
 
 const BookList = () => {
-  const { loading, error, data } = useQuery(getBooks);
+  const { loading, error, data } = useQuery(getBooksQuery);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error : {error.message}</p>;

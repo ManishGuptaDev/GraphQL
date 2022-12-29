@@ -1,8 +1,16 @@
-import { useQuery } from "@apollo/client";
-import { getAuthors } from '../queries/queries'
+import React, { useState } from 'react';
+import { useQuery, useMutation } from "@apollo/client";
+import { getAuthorsQuery, addBookMutation } from '../queries/queries'
 
 const AddBooks = () => {
-  const { loading, error, data } = useQuery(getAuthors);
+
+  const { loading, error, data } = useQuery(getAuthorsQuery);
+   // Pass mutation to useMutation
+  const [mutateFunction, { mutateData, mutateLoading, mutateError }] = useMutation(addBookMutation);
+
+  const [name, setName] = useState('');
+  const [genre, setGenre] = useState('');
+  const [authorId, setAuthorId] = useState('');
 
   const displayAuthors = () => {
     if (loading) {
@@ -14,21 +22,27 @@ const AddBooks = () => {
     }
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log(name, genre, authorId)
+    mutateFunction();
+  }
+
   return (
-    <form id="add-book">
+    <form id="add-book" onSubmit={onSubmit}>
       <div className="field">
         <label>Book Name:</label>
-        <input type={"text"} />
+        <input type={"text"} value={name}  onChange={e => setName(e.target.value)} />
       </div>
 
       <div className="field">
         <label>Genre:</label>
-        <input type={"text"} />
+        <input type={"text"} value={genre}  onChange={e => setGenre(e.target.value)}  />
       </div>
 
       <div className="field">
         <label>Author</label>
-        <select>
+        <select onChange={e => setAuthorId(e.target.value)}>
           <option>Select author</option>
           {
             displayAuthors()
