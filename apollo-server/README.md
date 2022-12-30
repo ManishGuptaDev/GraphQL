@@ -20,3 +20,16 @@ This project is created from scratch
 2. Full type-safety for free
 3. Auto-generated GraphQL SDL (schema.graphql file)
 4. Works out of the box with existing GraphQL frameworks and middleware (apollo-server, graphql-middleware, etc.)
+
+## Available Scripts
+
+In the project directory, you can run:
+
+### `npm dev`
+
+To start the web server.\
+Open [http://localhost:4000](http://localhost:4000) to view it in your browser.
+
+### `npm generate`
+
+regenerate your schema at any time.\
